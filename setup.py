@@ -3,7 +3,7 @@ from setuptools import setup
 
 
 setup(name='uwsgi-sloth',
-    version='1.0.1',
+    version='1.0.2',
     description='A simple uwsgi access log analyzer',
     long_description=open('README.rst').read(),
     author='piglei',
@@ -12,9 +12,7 @@ setup(name='uwsgi-sloth',
     keywords='uwsgi log analyzer',
     license='LICENSE',
     packages=['uwsgi_sloth'],
-    data_files=[
-      ('uwsgi_sloth', ['uwsgi_sloth/report.html', ])
-    ],
+    package_data={"": ['*.html']},
     install_requires=[
         'jinja2',
     ],

@@ -1,0 +1,227 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""UWSGI access log analyzer, perfect tool for analyzing slow requests"""
+import os
+import re
+import sys
+import argparse
+from jinja2 import Environment, FileSystemLoader
+from uwsgi_sloth import settings
+from uwsgi_sloth.settings import FILTER_METHODS, FILTER_STATUS, LIMIT_URL_GROUPS, \
+                                 LIMIT_PER_URL_GROUP, ROOT
+
+import logging
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="[%(asctime)s] %(levelname)s: %(message)s"
+)
+
+logger = logging
+
+
+parser = argparse.ArgumentParser(description='Analyze uwsgi api log.')
+subparsers = parser.add_subparsers()
+
+parser_analyze = subparsers.add_parser('analyze', help='Analyze uwsgi log to get report')
+parser_analyze.add_argument('-f', '--filepath', type=argparse.FileType('r'), dest='filepath',
+                            help='Path of uwsgi log file', required=True)
+parser_analyze.add_argument('--output', dest="output", type=argparse.FileType('w'), default=sys.stdout, 
+                            help='HTML report file path')
+parser_analyze.add_argument('--min-msecs', dest="min_msecs", type=int, default=200,
+                            help='Request serve time lower than this value will not be counted, default: 200')
+parser_analyze.add_argument('--domain', dest="domain", type=str, required=False,
+                            help='Make url in report become a hyper-link by settings a domain')
+parser_analyze.add_argument('--url-file', dest="url_file", type=file, required=False, 
+                            help='Customized url rules in regular expression')
+
+
+# Template shortcut & filters
+
+template_path = ROOT
+env = Environment(loader=FileSystemLoader(template_path))
+
+def friendly_time(msecs):
+    secs, msecs = divmod(msecs, 1000)
+    mins, secs = divmod(secs, 60)
+    hours, mins = divmod(mins, 60)
+    if hours:
+        return '%dh%dm%ds' % (hours, mins, secs)
+    elif mins:
+        return '%dm%ds' % (mins, secs)
+    elif secs:
+        return '%ds%dms' % (secs, msecs)
+    else:
+        return '%.2fms' % msecs
+
+env.filters['friendly_time'] = friendly_time
+
+
+def render_template(template_name, context={}):
+    template = env.get_template(template_name)
+    context.update(SETTINGS=settings)
+    return template.render(**context)
+
+
+def update_config(args):
+    # Update url rules from given urls file
+    url_rules = []
+    if args.url_file:
+        for line in args.url_file:
+            re_url = line.strip()
+            if re_url:
+                url_rules.append({'str': re_url, 're': re.compile(re_url)})
+
+    return {
+        'domain': args.domain,
+        'min_msecs': args.min_msecs,
+        'url_rules': url_rules
+    }
+
+
+class UWSGILogParser(object):
+    """Parser for uwsgi log file, support only default log format:
+
+    log format: "[pid: 27011|app: 0|req: 16858/537445] 58.251.73.227 () {40 vars in 1030 bytes} \
+                 [Tue Apr 29 00:13:10 2014] POST /trips/2387949771/add_waypoint/ => \
+                 generated 1053 bytes in 2767 msecs (HTTP/1.1 200) 4 headers in 282 bytes \
+                 (1 switches on core 0)"
+
+    Returns:
+    ~~~~~~~~
+
+    An dict of parsed log result.
+    """
+    RE_LOG_LINE = re.compile(r'(POST|GET|DELETE|PUT) ([^ ]*?) => generated (?:.*?) in (\d+) msecs \(HTTP/[\d.]+ (\d+)\)')
+
+    def __init__(self):
+        pass
+
+    def parse(self, line):
+        matched = self.RE_LOG_LINE.search(line)
+        if matched:
+            matched = matched.groups()
+            method = matched[0]
+            status = matched[3]
+            if not method in FILTER_METHODS or status not in FILTER_STATUS:
+                return
+
+            url = matched[1].replace('//', '/')
+            url_path = url.split('?')[0]
+            resp_time = int(matched[2])
+            return {
+                'method': method,
+                'url': url,
+                'url_path': url_path,
+                'resp_time': resp_time,
+                'status': status
+            }
+        return
+
+log_parser = UWSGILogParser()
+
+
+class URLClassifier(object):
+    """A simple url classifier, current rules:
+        
+    - replacing sequential digits part by '(\d+)'    
+
+    """
+
+    RE_SIMPLIFY_URL = re.compile(r'(?<=/)\d+[/$]')
+
+    def __init__(self, user_defined_rules=[]):
+        self.user_defined_rules = user_defined_rules
+
+    def classify(self, url_path):
+        """Classify an url"""
+        for dict_api_url in self.user_defined_rules:
+            api_url = dict_api_url['str']
+            re_api_url = dict_api_url['re']
+            if re_api_url.match(url_path[1:]):
+                return api_url
+
+        return self.RE_SIMPLIFY_URL.sub('(\d+)/', url_path)
+
+
+def analyze_log(fp, configs):
+    """Analyze log file"""
+    data = {}
+    url_classifier = URLClassifier(configs['url_rules'])
+    for line in fp:
+        line = line.strip()
+        result = log_parser.parse(line)
+        # Ignore invalid log
+        if not result:
+            continue
+        if result['resp_time'] < configs['min_msecs']:
+            continue
+
+        method = result['method']
+        resp_time = result['resp_time']
+        url = result['url']
+
+        # Use url_classifier to classify url
+        matched_url_rule = url_classifier.classify(result['url_path'])
+
+        big_d = data.setdefault((method, matched_url_rule), {
+            'urls': {},
+            'total_time': 0,
+            'count': 0
+        })
+        big_d['count'] += 1
+        big_d['total_time'] += resp_time
+
+        # Child dict
+        d = big_d['urls'].setdefault(url, {
+            "time": [],
+            "total_time": 0,
+            "count": 0,
+        })
+        d['count'] += 1
+        d['total_time'] += resp_time
+        d['time'].append(resp_time)
+
+    return data
+
+
+def main():
+    args = parser.parse_args()
+    configs = update_config(args)
+
+    logger.info('Analyzing log file "%s"...' % args.filepath.name)
+    data = analyze_log(args.filepath, configs)
+
+    total_requests = 0
+    total_duration = 0
+    # Pre-process data
+    for k, v in data.items():
+        # Only reserve first ``LIMIT_PER_URL_GROUP`` items
+        total_requests += v['count']
+        total_duration += v['total_time']
+        v['avg_duration'] = v['total_time'] / float(v['count'])
+        v['urls'] = sorted(v['urls'].iteritems(), key=lambda (k, v): v['total_time'],
+                           reverse=True)[:LIMIT_PER_URL_GROUP]
+
+        for url, url_data in v['urls']:
+            url_data['avg_duration'] = sum(url_data['time']) / float(len(url_data['time']))
+            url_data['time'] = sorted(url_data['time'])
+
+    data = sorted(data.iteritems(), key=lambda (k, v): v["total_time"], 
+                  reverse=True)[:LIMIT_URL_GROUPS]
+    html_data = render_template('report.html', {
+        'data': data,
+        'domain': configs['domain'],
+        'input_filename': args.filepath.name,
+        'min_duration': configs['min_msecs'],
+        'total_requests': total_requests,
+        'total_duration': total_duration
+    })
+
+    args.output.write(html_data)
+    args.output.close()
+
+
+if __name__ == "__main__":
+    main()
+

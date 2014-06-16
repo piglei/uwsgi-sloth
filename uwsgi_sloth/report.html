@@ -1,0 +1,132 @@
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>UWSGI-sloth report</title>
+  <link rel="stylesheet" href="{{ SETTINGS.STATIC_PATH_BOOTSTRAP }}" type="text/css" />
+  <style type="text/css" media="screen">
+    body {
+      padding: 12px;
+    }
+    h3 {
+      font-size: 20px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid #eee;
+    }
+    #main {
+      padding: 0 8px;
+    }
+    .url-details-list {
+      background-color: #f4f4f4;
+      margin 8px 0;
+      display: none;
+      border: 1px solid #999;
+    }
+    .url-details {
+      padding: 8px;
+      border-bottom: 1px solid #e4e4e4;
+    }
+    .table {
+      font-size: 14px;
+    }
+    .url-schema {
+      margin: 8px 0;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .show-details {
+      margin-bottom: 8px;
+    }
+  </style>
+  <body>
+
+  <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">UWSGI-sloth report</a>
+        </div>
+      </div>
+  </nav>
+  <div id="main">
+    <h3>Configuration</h3>
+    <ul>
+      {% if domain %}
+      <li><strong>Domain:</strong> <a href="{{ domain }}" target="_blank">{{ domain }}</a></li>
+      {% endif %}
+      <li><strong>Log File:</strong> {{ input_filename }}</li>
+      <li><strong>Min duration:</strong> {{ min_duration }}ms</li>
+      <li><strong>Matched requests:</strong> {{ total_requests }}</li>
+      <li><strong>Totally duration:</strong> {{ total_duration | friendly_time }}</li>
+    </ul>
+    <h3>Slowest Requests</h3>
+      <table class="table table-condensed table-hover">
+        <colgroup>
+          <col width="60px"></col>
+          <col width="100px"></col>
+          <col width="100px"></col>
+          <col width="100px"></col>
+          <col width="60px"></col>
+          <col></col>
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Total<br/>Duration</th>
+                <th>Times<br/>Requested</th>
+                <th>Av.<br/>duration</th>
+                <th>Method</th>
+                <th>Url Schema</th>
+            </th>
+        </thead>
+        <tbody>
+          {% for url_schema, d in data %}
+          <tr>
+            <td>{{ loop.index }}</td> 
+            <td>{{ d.total_time | friendly_time }}</td>
+            <td>{{ d.count }}</td>
+            <td>{{ d.avg_duration | friendly_time  }}</td>
+            <td>{{ url_schema[0] }}</td>
+            <td>
+              <div class="url-schema">{{ url_schema[1] }}</div>
+              <button class="show-details btn btn-default">SHOW TOP 20</button>
+              <div class="url-details-list">
+                {% for url, url_data in d.urls %}
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      {% if domain %}
+                      <a href="{{ domain }}{{url}}" target="_blank">{{ url[:100] }}</a>
+                      {% else %}
+                      {{url}}
+                      {% endif %}
+                    </p>
+                    <p><strong>Times:</strong> {{ url_data.count }}</p>
+                    <p><strong>Total duration:</strong> {{ url_data.total_time | friendly_time }}</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      {{ url_data.avg_duration | friendly_time }}
+                      / {{ url_data.time[0] | friendly_time }}
+                      / {{ url_data.time[-1] | friendly_time }}
+                    </p>
+                  </div>
+                {% endfor %}
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <script src="{{ SETTINGS.STATIC_PATH_JQUERY }}" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(function(){
+        $('.show-details').bind('click', function(){
+          $(this).next().toggle();  
+          if ($(this).next().css('display') === 'block') {
+            $(this).text('HIDE TOP 20');
+          } else {
+            $(this).text('SHOW TOP 20');
+          };
+        })    
+      }) 
+    </script>
+  </body>
+</head>

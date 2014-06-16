@@ -1,0 +1,1178 @@
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>UWSGI-sloth report</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" />
+  <style type="text/css" media="screen">
+    body {
+      padding: 12px;
+    }
+    h3 {
+      font-size: 20px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid #eee;
+    }
+    #main {
+      padding: 0 8px;
+    }
+    .url-details-list {
+      background-color: #f4f4f4;
+      margin 8px 0;
+      display: none;
+      border: 1px solid #999;
+    }
+    .url-details {
+      padding: 8px;
+      border-bottom: 1px solid #e4e4e4;
+    }
+    .table {
+      font-size: 14px;
+    }
+    .url-schema {
+      margin: 8px 0;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .show-details {
+      margin-bottom: 8px;
+    }
+  </style>
+  <body>
+
+  <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">UWSGI-sloth report</a>
+        </div>
+      </div>
+  </nav>
+  <div id="main">
+    <h3>Configuration</h3>
+    <ul>
+      
+      <li><strong>Log File:</strong> /tmp/hzjr_web.log</li>
+      <li><strong>Min duration:</strong> 200ms</li>
+      <li><strong>Matched requests:</strong> 1153</li>
+      <li><strong>Totally duration:</strong> 6m4s</li>
+    </ul>
+    <h3>Slowest Requests</h3>
+      <table class="table table-condensed table-hover">
+        <colgroup>
+          <col width="60px"></col>
+          <col width="100px"></col>
+          <col width="100px"></col>
+          <col width="100px"></col>
+          <col width="60px"></col>
+          <col></col>
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Total<br/>Duration</th>
+                <th>Times<br/>Requested</th>
+                <th>Av.<br/>duration</th>
+                <th>Method</th>
+                <th>Url Schema</th>
+            </th>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>1</td> 
+            <td>5m5s</td>
+            <td>1005</td>
+            <td>303.85ms</td>
+            <td>GET</td>
+            <td>
+              <div class="url-schema">/manuscript/items/</div>
+              <button class="show-details btn btn-default">SHOW TOP 20</button>
+              <div class="url-details-list">
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/
+                      
+                    </p>
+                    <p><strong>Times:</strong> 880</p>
+                    <p><strong>Total duration:</strong> 4m26s</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      303.23ms
+                      / 200.00ms
+                      / 1s274ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?&page=2
+                      
+                    </p>
+                    <p><strong>Times:</strong> 16</p>
+                    <p><strong>Total duration:</strong> 4s161ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      260.06ms
+                      / 201.00ms
+                      / 303.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=&issue=2989
+                      
+                    </p>
+                    <p><strong>Times:</strong> 8</p>
+                    <p><strong>Total duration:</strong> 2s544ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      318.00ms
+                      / 209.00ms
+                      / 375.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=&issue=2958
+                      
+                    </p>
+                    <p><strong>Times:</strong> 10</p>
+                    <p><strong>Total duration:</strong> 2s507ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      250.70ms
+                      / 204.00ms
+                      / 307.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=2014-01-01&date_end=2014-01-31&date_query_type=pub_date&region=&keyword=&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 5</p>
+                    <p><strong>Total duration:</strong> 1s906ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      381.20ms
+                      / 248.00ms
+                      / 597.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=&issue=2973
+                      
+                    </p>
+                    <p><strong>Times:</strong> 5</p>
+                    <p><strong>Total duration:</strong> 1s797ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      359.40ms
+                      / 256.00ms
+                      / 594.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=date_added&region=&keyword=&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 5</p>
+                    <p><strong>Total duration:</strong> 1s796ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      359.20ms
+                      / 200.00ms
+                      / 538.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=2014-01-01&date_end=2014-03-31&date_query_type=pub_date&region=&keyword=%E6%B1%9F%E8%A5%BF&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 6</p>
+                    <p><strong>Total duration:</strong> 1s790ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      298.33ms
+                      / 244.00ms
+                      / 459.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=&issue=2962
+                      
+                    </p>
+                    <p><strong>Times:</strong> 6</p>
+                    <p><strong>Total duration:</strong> 1s717ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      286.17ms
+                      / 248.00ms
+                      / 325.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?&page=1
+                      
+                    </p>
+                    <p><strong>Times:</strong> 6</p>
+                    <p><strong>Total duration:</strong> 1s676ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      279.33ms
+                      / 248.00ms
+                      / 353.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=&issue=2993
+                      
+                    </p>
+                    <p><strong>Times:</strong> 4</p>
+                    <p><strong>Total duration:</strong> 1s613ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      403.25ms
+                      / 337.00ms
+                      / 592.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=&issue=2991
+                      
+                    </p>
+                    <p><strong>Times:</strong> 4</p>
+                    <p><strong>Total duration:</strong> 1s380ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      345.00ms
+                      / 331.00ms
+                      / 365.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=&issue=2977
+                      
+                    </p>
+                    <p><strong>Times:</strong> 4</p>
+                    <p><strong>Total duration:</strong> 1s338ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      334.50ms
+                      / 296.00ms
+                      / 412.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=&issue=2979
+                      
+                    </p>
+                    <p><strong>Times:</strong> 3</p>
+                    <p><strong>Total duration:</strong> 1s78ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      359.33ms
+                      / 224.00ms
+                      / 548.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=&issue=2984
+                      
+                    </p>
+                    <p><strong>Times:</strong> 4</p>
+                    <p><strong>Total duration:</strong> 979.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      244.75ms
+                      / 209.00ms
+                      / 313.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=pub_date&region=&keyword=&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 3</p>
+                    <p><strong>Total duration:</strong> 846.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      282.00ms
+                      / 226.00ms
+                      / 311.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=%E8%BE%89%E5%8E%BF&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 810.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      810.00ms
+                      / 810.00ms
+                      / 810.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=&issue=2975
+                      
+                    </p>
+                    <p><strong>Times:</strong> 2</p>
+                    <p><strong>Total duration:</strong> 698.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      349.00ms
+                      / 332.00ms
+                      / 366.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?keyword=%E5%B1%B1%E8%A5%BF%E7%9C%81%E6%B4%AA%E6%B4%9E%E5%8E%BF%E5%86%9C%E6%9D%91%E4%BF%A1%E7%94%A8%E5%90%88%E4%BD%9C%E8%81%94%E7%A4%BE
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 676.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      676.00ms
+                      / 676.00ms
+                      / 676.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/?date_start=&date_end=&date_query_type=&region=&keyword=&issue=2986
+                      
+                    </p>
+                    <p><strong>Times:</strong> 2</p>
+                    <p><strong>Total duration:</strong> 676.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      338.00ms
+                      / 206.00ms
+                      / 470.00ms
+                    </p>
+                  </div>
+                
+              </div>
+            </td>
+          </tr>
+          
+          <tr>
+            <td>2</td> 
+            <td>30s718ms</td>
+            <td>74</td>
+            <td>415.11ms</td>
+            <td>GET</td>
+            <td>
+              <div class="url-schema">/manuscript/statistics/</div>
+              <button class="show-details btn btn-default">SHOW TOP 20</button>
+              <div class="url-details-list">
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/
+                      
+                    </p>
+                    <p><strong>Times:</strong> 48</p>
+                    <p><strong>Total duration:</strong> 19s883ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      414.23ms
+                      / 200.00ms
+                      / 4s321ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2014-01-01&date_end=2014-03-31&date_query_type=pub_date&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 4</p>
+                    <p><strong>Total duration:</strong> 2s74ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      518.50ms
+                      / 388.00ms
+                      / 769.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2014-01-01&date_end=2014-04-30&date_query_type=pub_date&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 1s406ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      1s406ms
+                      / 1s406ms
+                      / 1s406ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=&date_end=&date_query_type=&issue=2954
+                      
+                    </p>
+                    <p><strong>Times:</strong> 2</p>
+                    <p><strong>Total duration:</strong> 1s210ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      605.00ms
+                      / 583.00ms
+                      / 627.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2013-08-01&date_end=2014-05-05&date_query_type=pub_date&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 2</p>
+                    <p><strong>Total duration:</strong> 1s92ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      546.00ms
+                      / 541.00ms
+                      / 551.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2013-12-01&date_end=2013-12-31&date_query_type=pub_date
+                      
+                    </p>
+                    <p><strong>Times:</strong> 3</p>
+                    <p><strong>Total duration:</strong> 695.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      231.67ms
+                      / 209.00ms
+                      / 247.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2013-11-29&date_end=2013-12-30&date_query_type=date_added
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 641.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      641.00ms
+                      / 641.00ms
+                      / 641.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=&date_end=&date_query_type=&issue=2950
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 512.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      512.00ms
+                      / 512.00ms
+                      / 512.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=&date_end=&date_query_type=&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 2</p>
+                    <p><strong>Total duration:</strong> 472.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      236.00ms
+                      / 234.00ms
+                      / 238.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=&date_end=&date_query_type=&issue=-1
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 457.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      457.00ms
+                      / 457.00ms
+                      / 457.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2013-09-01&date_end=2014-03-13&date_query_type=date_added&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 425.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      425.00ms
+                      / 425.00ms
+                      / 425.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2013-12-23&date_end=2014-01-22&date_query_type=date_added&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 300.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      300.00ms
+                      / 300.00ms
+                      / 300.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2013-12-01&date_end=2013-12-31&date_query_type=date_added
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 243.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      243.00ms
+                      / 243.00ms
+                      / 243.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2013-11-01&date_end=2014-01-07&date_query_type=pub_date&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 238.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      238.00ms
+                      / 238.00ms
+                      / 238.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2014-01-01&date_end=2014-02-24&date_query_type=pub_date&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 237.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      237.00ms
+                      / 237.00ms
+                      / 237.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2014-01-01&date_end=2014-02-28&date_query_type=pub_date&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 222.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      222.00ms
+                      / 222.00ms
+                      / 222.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=&date_end=&date_query_type=pub_date&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 206.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      206.00ms
+                      / 206.00ms
+                      / 206.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2013-12-05&date_end=2014-01-04&date_query_type=date_added
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 203.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      203.00ms
+                      / 203.00ms
+                      / 203.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/statistics/?date_start=2014-02-04&date_end=2014-03-13&date_query_type=pub_date&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 202.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      202.00ms
+                      / 202.00ms
+                      / 202.00ms
+                    </p>
+                  </div>
+                
+              </div>
+            </td>
+          </tr>
+          
+          <tr>
+            <td>3</td> 
+            <td>18s742ms</td>
+            <td>45</td>
+            <td>416.49ms</td>
+            <td>GET</td>
+            <td>
+              <div class="url-schema">/manuscript/items/download/</div>
+              <button class="show-details btn btn-default">SHOW TOP 20</button>
+              <div class="url-details-list">
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?keyword=&issue=&region=&date_start=2014-01-01&type=reward&date_end=2014-01-31&date_query_type=pub_date
+                      
+                    </p>
+                    <p><strong>Times:</strong> 9</p>
+                    <p><strong>Total duration:</strong> 3s605ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      400.56ms
+                      / 313.00ms
+                      / 620.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=&type=reward
+                      
+                    </p>
+                    <p><strong>Times:</strong> 5</p>
+                    <p><strong>Total duration:</strong> 2s879ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      575.80ms
+                      / 225.00ms
+                      / 858.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=&region=&type=reward&keyword=&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 2</p>
+                    <p><strong>Total duration:</strong> 2s763ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      1s381ms
+                      / 596.00ms
+                      / 2s167ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=&type=client
+                      
+                    </p>
+                    <p><strong>Times:</strong> 3</p>
+                    <p><strong>Total duration:</strong> 1s903ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      634.33ms
+                      / 417.00ms
+                      / 964.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?type=reward&issue=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 3</p>
+                    <p><strong>Total duration:</strong> 744.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      248.00ms
+                      / 224.00ms
+                      / 282.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?keyword=&issue=&region=&date_start=2014-01-01&type=reward&date_end=2014-01-31&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 729.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      729.00ms
+                      / 729.00ms
+                      / 729.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?type=client
+                      
+                    </p>
+                    <p><strong>Times:</strong> 3</p>
+                    <p><strong>Total duration:</strong> 692.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      230.67ms
+                      / 208.00ms
+                      / 246.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=2973&region=&type=reward&keyword=&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 570.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      570.00ms
+                      / 570.00ms
+                      / 570.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?keyword=&issue=&region=&date_start=2014-01-01&type=reward&date_end=2014-02-28&date_query_type=pub_date
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 473.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      473.00ms
+                      / 473.00ms
+                      / 473.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?keyword=%E5%B1%B1%E4%B8%9C&issue=&region=&date_start=2014-01-01&type=client&date_end=2014-03-31&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 2</p>
+                    <p><strong>Total duration:</strong> 472.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      236.00ms
+                      / 230.00ms
+                      / 242.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=2962&region=&type=reward&keyword=&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 2</p>
+                    <p><strong>Total duration:</strong> 450.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      225.00ms
+                      / 215.00ms
+                      / 235.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?type=reward
+                      
+                    </p>
+                    <p><strong>Times:</strong> 2</p>
+                    <p><strong>Total duration:</strong> 442.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      221.00ms
+                      / 220.00ms
+                      / 222.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=2982&region=&type=reward&keyword=&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 419.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      419.00ms
+                      / 419.00ms
+                      / 419.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=2984&region=&type=reward&keyword=&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 371.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      371.00ms
+                      / 371.00ms
+                      / 371.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=2975&region=&type=reward&keyword=&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 306.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      306.00ms
+                      / 306.00ms
+                      / 306.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=2993&region=&type=reward&keyword=&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 289.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      289.00ms
+                      / 289.00ms
+                      / 289.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?keyword=&issue=&region=&date_start=2014-01-01&type=reward&date_end=2014-02-28&date_query_type=date_added
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 264.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      264.00ms
+                      / 264.00ms
+                      / 264.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=2989&region=&type=reward&keyword=&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 254.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      254.00ms
+                      / 254.00ms
+                      / 254.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=2991&region=&type=reward&keyword=&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 243.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      243.00ms
+                      / 243.00ms
+                      / 243.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/download/?issue=2979&region=&type=reward&keyword=&date_query_type=
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 230.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      230.00ms
+                      / 230.00ms
+                      / 230.00ms
+                    </p>
+                  </div>
+                
+              </div>
+            </td>
+          </tr>
+          
+          <tr>
+            <td>4</td> 
+            <td>6s967ms</td>
+            <td>19</td>
+            <td>366.68ms</td>
+            <td>GET</td>
+            <td>
+              <div class="url-schema">/manuscript/add/</div>
+              <button class="show-details btn btn-default">SHOW TOP 20</button>
+              <div class="url-details-list">
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/add/
+                      
+                    </p>
+                    <p><strong>Times:</strong> 19</p>
+                    <p><strong>Total duration:</strong> 6s967ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      366.68ms
+                      / 200.00ms
+                      / 1s118ms
+                    </p>
+                  </div>
+                
+              </div>
+            </td>
+          </tr>
+          
+          <tr>
+            <td>5</td> 
+            <td>1s249ms</td>
+            <td>5</td>
+            <td>249.80ms</td>
+            <td>POST</td>
+            <td>
+              <div class="url-schema">/manuscript/corporations/</div>
+              <button class="show-details btn btn-default">SHOW TOP 20</button>
+              <div class="url-details-list">
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/corporations/
+                      
+                    </p>
+                    <p><strong>Times:</strong> 5</p>
+                    <p><strong>Total duration:</strong> 1s249ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      249.80ms
+                      / 207.00ms
+                      / 300.00ms
+                    </p>
+                  </div>
+                
+              </div>
+            </td>
+          </tr>
+          
+          <tr>
+            <td>6</td> 
+            <td>765.00ms</td>
+            <td>3</td>
+            <td>255.00ms</td>
+            <td>GET</td>
+            <td>
+              <div class="url-schema">/manuscript/items/(\d+)/edit/</div>
+              <button class="show-details btn btn-default">SHOW TOP 20</button>
+              <div class="url-details-list">
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/846/edit/
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 322.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      322.00ms
+                      / 322.00ms
+                      / 322.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/625/edit/
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 236.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      236.00ms
+                      / 236.00ms
+                      / 236.00ms
+                    </p>
+                  </div>
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/items/542/edit/
+                      
+                    </p>
+                    <p><strong>Times:</strong> 1</p>
+                    <p><strong>Total duration:</strong> 207.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      207.00ms
+                      / 207.00ms
+                      / 207.00ms
+                    </p>
+                  </div>
+                
+              </div>
+            </td>
+          </tr>
+          
+          <tr>
+            <td>7</td> 
+            <td>617.00ms</td>
+            <td>2</td>
+            <td>308.50ms</td>
+            <td>GET</td>
+            <td>
+              <div class="url-schema">/manuscript/corporations/list/</div>
+              <button class="show-details btn btn-default">SHOW TOP 20</button>
+              <div class="url-details-list">
+                
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                      
+                      /manuscript/corporations/list/
+                      
+                    </p>
+                    <p><strong>Times:</strong> 2</p>
+                    <p><strong>Total duration:</strong> 617.00ms</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                      308.50ms
+                      / 257.00ms
+                      / 360.00ms
+                    </p>
+                  </div>
+                
+              </div>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    <script src="http://code.jquery.com/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(function(){
+        $('.show-details').bind('click', function(){
+          $(this).next().toggle();  
+          if ($(this).next().css('display') === 'block') {
+            $(this).text('HIDE TOP 20');
+          } else {
+            $(this).text('SHOW TOP 20');
+          };
+        })    
+      }) 
+    </script>
+  </body>
+</head>

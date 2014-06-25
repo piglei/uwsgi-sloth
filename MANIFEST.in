@@ -1,2 +1,4 @@
 include README.rst
-include uwsgi_sloth/templates *.html
+include LICENSE
+include uwsgi_sloth/templates/*.html
+include uwsgi_sloth/sample.conf

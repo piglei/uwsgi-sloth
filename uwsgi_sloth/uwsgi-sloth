@@ -7,13 +7,13 @@ parser = argparse.ArgumentParser(description='Realtime uwsgi log analyzer.')
 subparsers = parser.add_subparsers()
 
 # COMMAND: uwsgi-sloth analyze
-from commands.analyze import load_subcommand
+from uwsgi_sloth.commands.analyze import load_subcommand
 load_subcommand(subparsers)
 # COMMAND: uwsgi-sloth start
-from commands.start import load_subcommand
+from uwsgi_sloth.commands.start import load_subcommand
 load_subcommand(subparsers)
 # COMMAND: uwsgi-sloth echo_conf
-from commands.echo_conf import load_subcommand
+from uwsgi_sloth.commands.echo_conf import load_subcommand
 load_subcommand(subparsers)
 
 

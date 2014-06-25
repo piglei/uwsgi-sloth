@@ -1,2 +1,2 @@
 include README.rst
-include uwsgi_sloth/report.html
+include uwsgi_sloth/templates *.html

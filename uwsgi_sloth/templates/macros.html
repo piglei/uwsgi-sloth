@@ -1,0 +1,59 @@
+{%- macro render_details_table(data_details, domain=None) -%}
+
+          <table class="table table-condensed table-hover">
+            <colgroup>
+              <col width="60px"></col>
+              <col width="100px"></col>
+              <col width="100px"></col>
+              <col width="100px"></col>
+              <col width="60px"></col>
+              <col></col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Total<br/>Duration</th>
+                <th>Times<br/>Requested</th>
+                <th>Av.<br/>duration</th>
+                <th>Method</th>
+                <th>Url Schema</th>
+              </th>
+            </thead>
+            <tbody>
+            {% for url_schema, d in data_details %}
+            <tr>
+              <td>{{ loop.index }}</td> 
+              <td>{{ d.duration_agr_data.total | friendly_time }}</td>
+              <td>{{ d.duration_agr_data.count }}</td>
+              <td>{{ d.duration_agr_data.avg | friendly_time  }}</td>
+              <td>{{ url_schema[0] }}</td>
+              <td>
+                <div class="url-schema">{{ url_schema[1] }}</div>
+                <button class="show-details btn btn-default">Top 20 urls</button>
+                <div class="url-details-list">
+                  {% for url, url_data in d.urls %}
+                  <div class="url-details">
+                    <p><strong>Url:</strong> 
+                    {% if domain %}
+                    <a href="{{ domain }}{{url}}" target="_blank">{{ url[:100] }}</a>
+                    {% else %}
+                    {{url}}
+                    {% endif %}
+                    </p>
+                    <p><strong>Times:</strong> {{ url_data.count }}</p>
+                    <p><strong>Total duration:</strong> {{ url_data.total | friendly_time }}</p>
+                    <p><strong>Avg/Min/Max dur:</strong>
+                    {{ url_data.avg | friendly_time }}
+                    / {{ url_data.min | friendly_time }}
+                    / {{ url_data.max | friendly_time }}
+                    </p>
+                  </div>
+                  {% endfor %}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+
+{%- endmacro %}

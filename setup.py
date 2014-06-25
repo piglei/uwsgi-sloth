@@ -15,6 +15,7 @@ setup(name='uwsgi-sloth',
     package_data={"": ['*.html']},
     install_requires=[
         'jinja2',
+        'configobj'
     ],
     scripts=['uwsgi_sloth/uwsgi-sloth'])
 

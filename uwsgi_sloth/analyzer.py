@@ -3,6 +3,7 @@
 import re
 import copy
 import datetime
+from uwsgi_sloth.utils import total_seconds
 from uwsgi_sloth.structures import ValuesAggregation
 from uwsgi_sloth.settings import FILTER_METHODS, FILTER_STATUS, LIMIT_URL_GROUPS, \
                                  LIMIT_PER_URL_GROUP, ROOT, REALTIME_UPDATE_INTERVAL
@@ -197,7 +198,7 @@ class RealtimeLogAnalyzer(object):
         today = datetime.date.today()
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
         result = []
-        if (datetime.datetime.now() - request_datetime).total_seconds() < REALTIME_UPDATE_INTERVAL:
+        if total_seconds(datetime.datetime.now() - request_datetime) < REALTIME_UPDATE_INTERVAL:
             result.append('last_interval')
         if request_date == today:
             result.append(today.isoformat())

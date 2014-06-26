@@ -8,7 +8,7 @@ from configobj import ConfigObj
 from uwsgi_sloth.analyzer import format_data, RealtimeLogAnalyzer
 from uwsgi_sloth.tailer import Tailer, no_new_line
 from uwsgi_sloth.template import render_template
-from uwsgi_sloth.utils import makedir_if_none_exists
+from uwsgi_sloth.utils import makedir_if_none_exists, total_seconds
 from uwsgi_sloth.models import merge_requests_data_to, RequestsData, SavePoint
 from uwsgi_sloth.settings import REALTIME_UPDATE_INTERVAL, DEFAULT_MIN_MSECS
 
@@ -18,8 +18,9 @@ logger = logging.getLogger('uwsgi_sloth')
 
 class HTMLRender(object):
     """helper for render HTML"""
-    def __init__(self, html_dir):
+    def __init__(self, html_dir, domain=None):
         self.html_dir = html_dir
+        self.domain = domain
 
     def render_requests_data_to_html(self, data, file_name, context={}):
         """Render to HTML file"""
@@ -27,6 +28,7 @@ class HTMLRender(object):
         logger.info('Rendering HTML file %s...' % file_path)
         data = format_data(data)
         data.update(context)
+        data.update(domain=self.domain)
         with open(file_path, 'w') as fp:
             fp.write(render_template('realtime.html', data))
 
@@ -70,7 +72,7 @@ def start(args):
     last_update_datetime = None
     analyzer = RealtimeLogAnalyzer(min_msecs=min_msecs, start_from_datetime=last_log_datetime)
     file_tailer = Tailer(uwsgi_log_path)
-    html_render = HTMLRender(html_dir)
+    html_render = HTMLRender(html_dir, domain=config.get('domain'))
     for line in file_tailer:
         # Analyze line
         if line != no_new_line:
@@ -80,7 +82,7 @@ def start(args):
         if not file_tailer.trailing:
             continue
         if last_update_datetime and \
-                (now - last_update_datetime).total_seconds() < REALTIME_UPDATE_INTERVAL:
+                total_seconds(now - last_update_datetime) < REALTIME_UPDATE_INTERVAL:
             continue
 
         # Render HTML file when:

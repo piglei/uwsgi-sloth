@@ -16,4 +16,7 @@ def makedir_if_none_exists(d):
     if not os.path.exists(d):
         os.makedirs(d)
 
+def total_seconds(td):
+    """Return timedelta's total seconds"""
+    return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 1e6) / 1e6
 

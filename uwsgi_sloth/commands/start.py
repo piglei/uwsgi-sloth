@@ -5,10 +5,10 @@ import argparse
 import datetime
 from configobj import ConfigObj
 
-from uwsgi_sloth.analyzer import format_data, RealtimeLogAnalyzer
+from uwsgi_sloth.analyzer import format_data, RealtimeLogAnalyzer, URLClassifier
 from uwsgi_sloth.tailer import Tailer, no_new_line
 from uwsgi_sloth.template import render_template
-from uwsgi_sloth.utils import makedir_if_none_exists, total_seconds
+from uwsgi_sloth.utils import makedir_if_none_exists, total_seconds, parse_url_rules
 from uwsgi_sloth.models import merge_requests_data_to, RequestsData, SavePoint
 from uwsgi_sloth.settings import REALTIME_UPDATE_INTERVAL, DEFAULT_MIN_MSECS
 
@@ -58,6 +58,13 @@ def start(args):
     data_dir = config['data_dir']
     uwsgi_log_path = config['uwsgi_log_path']
     min_msecs = int(config.get('min_msecs', DEFAULT_MIN_MSECS))
+    url_file = config.get('url_file')
+
+    # Load custom url rules
+    url_rules = []
+    if url_file:
+        with open(url_file, 'r') as fp:
+            url_rules = parse_url_rules(fp)
 
     html_dir = os.path.join(data_dir, 'html')
     db_dir = os.path.join(data_dir, 'data')
@@ -70,7 +77,9 @@ def start(args):
     logger.info('Start from last savepoint, last_log_datetime: %s' % last_log_datetime)
 
     last_update_datetime = None
-    analyzer = RealtimeLogAnalyzer(min_msecs=min_msecs, start_from_datetime=last_log_datetime)
+    url_classifier = URLClassifier(user_defined_rules=url_rules)
+    analyzer = RealtimeLogAnalyzer(url_classifier=url_classifier, min_msecs=min_msecs,
+                                   start_from_datetime=last_log_datetime)
     file_tailer = Tailer(uwsgi_log_path)
     html_render = HTMLRender(html_dir, domain=config.get('domain'))
     for line in file_tailer:

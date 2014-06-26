@@ -165,6 +165,7 @@ class Tailer(object):
 
         Based on: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/157035
         """
+        # TODO: Handle log file rotation
         self.trailing = True       
         
         while not self.should_stop_follow:

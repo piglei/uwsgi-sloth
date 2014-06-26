@@ -43,8 +43,10 @@ def update_html_symlink(html_dir):
             (today, 'today.html'), (yesterday, 'yesterday.html')):
         from_date_file_path = os.path.join(html_dir, 'day_%s.html' % from_date)
         symlink_path = os.path.join(html_dir, alias_name)
-        if os.path.exists(symlink_path):
-            os.unlink(symlink_path)
+        try:                                                                                         
+            os.unlink(symlink_path)                                                                  
+        except OSError:                                                                              
+            pass                                                                                     
         os.symlink(from_date_file_path, symlink_path)
 
 

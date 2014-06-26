@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 """File tailer, Based on: https://github.com/six8/pytailer"""
+import os
 import re
 import time
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class NoNewLine(object):
@@ -16,6 +20,7 @@ class Tailer(object):
     """
     line_terminators = ('\r\n', '\n', '\r')
     DEFAULT_BLOCK_SIZE = 4096
+    MAX_UNCHANGED_STATS = 5
 
     def __init__(self, file, read_size=DEFAULT_BLOCK_SIZE, end=False):
         if isinstance(file, basestring):
@@ -166,7 +171,8 @@ class Tailer(object):
         Based on: http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/157035
         """
         # TODO: Handle log file rotation
-        self.trailing = True       
+        self.trailing = True
+        unchanged_stats = 0
         
         while not self.should_stop_follow:
             where = self.file.tell()
@@ -185,13 +191,23 @@ class Tailer(object):
                         line = line[:-1]
 
                 self.trailing = False
+                unchanged_stats = 0
                 yield line
             else:
                 self.trailing = True
                 self.seek(where)
-                time.sleep(delay)
                 yield no_new_line
+                # Try to catch up rotated log file
+                unchanged_stats += 1
+                if unchanged_stats >= self.MAX_UNCHANGED_STATS and \
+                        where != os.stat(self.file.name).st_size:
+                    logger.info('Reopen log file because file may has been rotated.')
+                    self.reopen_file()
 
+                time.sleep(delay)
+
+    def reopen_file(self):
+        self.file = open(self.file.name, 'r')
 
     def stop_follow(self):
         self.should_stop_follow = True

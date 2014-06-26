@@ -47,8 +47,8 @@ command.
 
 Check more: `uwsgi-sloth analyze`_
     
-Realtime report
-^^^^^^^^^^^^^^^
+Realtime reports
+^^^^^^^^^^^^^^^^
 
 We do support a more powerful feature: realtime uwsgi log report.
 It's a little more complicated to configure.
@@ -59,7 +59,9 @@ First, create a default config file using ``uwsgi-sloth echo_conf``:
 
     uwsgi-sloth echo_conf > /data/uwsgi_sloth/myblog.conf
 
-The default config file are like this: ::
+The default config file are like this:
+
+.. code-block:: ini
 
     # A sample uwsgi-sloth config file
 
@@ -92,7 +94,7 @@ Demonize
 ~~~~~~~~
 
 uwsgi-sloth does not support built-in deamonize option, so you may need tools like
-`supervior <https://github.com/Supervisor/supervisor>` to manage this process.
+`supervior <https://github.com/Supervisor/supervisor>`_ to manage this process.
 
 Serve your reports
 ~~~~~~~~~~~~~~~~~~

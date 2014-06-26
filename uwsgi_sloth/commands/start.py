@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Start uwsgi-sloth workers"""
 import os
+import signal
 import argparse
 import datetime
 from configobj import ConfigObj
@@ -47,11 +48,6 @@ def update_html_symlink(html_dir):
         os.symlink(from_date_file_path, symlink_path)
 
 
-uwsgi_log_path = '/data/logs/breadtrip/uwsgi/api.log'
-data_dir = '/tmp/uwsgi-sloth/'
-min_msecs = 1
-
-
 def start(args):
     # Load config file
     config = ConfigObj(infile=args.config.name)
@@ -82,6 +78,13 @@ def start(args):
                                    start_from_datetime=last_log_datetime)
     file_tailer = Tailer(uwsgi_log_path)
     html_render = HTMLRender(html_dir, domain=config.get('domain'))
+
+    # Listen INT/TERM signal
+    def gracefully_exit(*args):
+        logger.info('Sinal received, exit.')
+        file_tailer.stop_follow()
+    signal.signal(signal.SIGINT, gracefully_exit) 
+
     for line in file_tailer:
         # Analyze line
         if line != no_new_line:

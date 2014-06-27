@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__VERSION__ = [2, 0, 0]
+__VERSION__ = [2, 0, 2]
 
 # Init logger
 import logging

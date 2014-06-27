@@ -9,7 +9,7 @@ from configobj import ConfigObj
 from uwsgi_sloth.analyzer import format_data, RealtimeLogAnalyzer, URLClassifier
 from uwsgi_sloth.tailer import Tailer, no_new_line
 from uwsgi_sloth.template import render_template
-from uwsgi_sloth.utils import makedir_if_none_exists, total_seconds, parse_url_rules
+from uwsgi_sloth.utils import makedir_if_none_exists, total_seconds, parse_url_rules, smart_str
 from uwsgi_sloth.models import merge_requests_data_to, RequestsData, SavePoint
 from uwsgi_sloth.settings import REALTIME_UPDATE_INTERVAL, DEFAULT_MIN_MSECS
 
@@ -31,7 +31,7 @@ class HTMLRender(object):
         data.update(context)
         data.update(domain=self.domain)
         with open(file_path, 'w') as fp:
-            fp.write(render_template('realtime.html', data))
+            fp.write(smart_str(render_template('realtime.html', data)))
 
 
 def update_html_symlink(html_dir):

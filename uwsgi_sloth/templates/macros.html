@@ -28,16 +28,16 @@
               <td>{{ d.duration_agr_data.avg | friendly_time  }}</td>
               <td>{{ url_schema[0] }}</td>
               <td>
-                <div class="url-schema">{{ url_schema[1] }}</div>
+                <div class="url-schema">{{ url_schema[1]|smart_unicode }}</div>
                 <button class="show-details btn btn-default">Top 20 urls</button>
                 <div class="url-details-list">
                   {% for url, url_data in d.urls %}
                   <div class="url-details">
                     <p><strong>Url:</strong> 
                     {% if domain %}
-                    <a href="{{ domain }}{{url}}" target="_blank">{{ url[:100] }}</a>
+                    <a href="{{ domain }}{{url}}" target="_blank">{{ url[:100]|smart_unicode }}</a>
                     {% else %}
-                    {{url}}
+                    {{ url|smart_unicode }}
                     {% endif %}
                     </p>
                     <p><strong>Times:</strong> {{ url_data.count }}</p>

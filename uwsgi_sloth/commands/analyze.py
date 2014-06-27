@@ -7,7 +7,7 @@ import argparse
 from uwsgi_sloth.settings import LIMIT_URL_GROUPS, LIMIT_PER_URL_GROUP
 from uwsgi_sloth.analyzer import URLClassifier, LogAnalyzer, format_data
 from uwsgi_sloth.template import render_template
-from uwsgi_sloth.utils import parse_url_rules
+from uwsgi_sloth.utils import parse_url_rules, smart_str
 
 logger = logging.getLogger('uwsgi_sloth.analyze')
 
@@ -40,7 +40,7 @@ def analyze(args):
     # Pre-process data
     html_data = render_template('report.html', data)
 
-    args.output.write(html_data)
+    args.output.write(smart_str(html_data))
     args.output.close()
     logger.info('Finished in %.2f seconds.' % (time.time() - start_time))
 

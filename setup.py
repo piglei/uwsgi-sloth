@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 
 setup(name='uwsgi-sloth',
-    version='2.0.0',
+    version='2.0.1',
     description='A simple uwsgi access log analyzer',
     long_description=open('README.rst').read(),
     author='piglei',

@@ -35,7 +35,7 @@
                   <div class="url-details">
                     <p><strong>Url:</strong> 
                     {% if domain %}
-                    <a href="{{ domain }}{{url}}" target="_blank">{{ url[:100]|smart_unicode }}</a>
+                    <a href="{{ domain }}{{url|smart_unicode}}" target="_blank">{{ url[:100]|smart_unicode }}</a>
                     {% else %}
                     {{ url|smart_unicode }}
                     {% endif %}

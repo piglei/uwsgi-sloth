@@ -94,7 +94,7 @@ Demonize
 ~~~~~~~~
 
 uwsgi-sloth does not support built-in deamonize option, so you may need tools like
-`supervior <https://github.com/Supervisor/supervisor>`_ to manage this process.
+`supervisor <https://github.com/Supervisor/supervisor>`_ to manage this process.
 
 Serve your reports
 ~~~~~~~~~~~~~~~~~~

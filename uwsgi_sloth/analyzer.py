@@ -23,12 +23,19 @@ class UWSGILogParser(object):
     An dict of parsed log result.
     """
     DATETIME_FORMAT = '%a %b %d %H:%M:%S %Y'
-    RE_LOG_LINE = re.compile(r'''}\ \[(?P<datetime>.*?)\]\ (?P<request_method>POST|GET|DELETE|PUT)\s
-        (?P<request_uri>[^ ]*?)\ =>\ generated\ (?:.*?)\ in\ (?P<resp_msecs>\d+)\ msecs\s
-        \(HTTP/[\d.]+\ (?P<resp_status>\d+)\)''', re.VERBOSE)
 
-    def __init__(self):
-        pass
+    def __init__(self, memory_report=False):
+        common_re_part = r'''}\ \[(?P<datetime>.*?)\]\ (?P<request_method>POST|GET|DELETE|PUT)\s
+        (?P<request_uri>[^ ]*?)\ =>\ generated\ (?:.*?)\ in\ (?P<resp_msecs>\d+)\ msecs\s
+        \(HTTP/[\d.]+\ (?P<resp_status>\d+)\)'''
+        if memory_report:
+            self.RE_LOG_LINE = re.compile(
+                r'''{address\ space\ usage:\ (?P<address_space_usage>\d+)\ bytes.*}\s
+                {rss\ usage:\ (?P<rss_usage>\d+)\ bytes.*}\s.*'''
+                + common_re_part, re.VERBOSE)
+        else:
+            self.RE_LOG_LINE = re.compile(common_re_part, re.VERBOSE)
+        self.memory_report = memory_report
 
     def parse(self, line):
         matched = self.RE_LOG_LINE.search(line)
@@ -42,23 +49,33 @@ class UWSGILogParser(object):
             url = matched_dict['request_uri'].replace('//', '/')
             url_path = url.split('?')[0]
             resp_time = int(matched_dict['resp_msecs'])
-            request_datetime = datetime.datetime.strptime(matched_dict['datetime'], 
+            request_datetime = datetime.datetime.strptime(matched_dict['datetime'],
                                                           self.DATETIME_FORMAT)
-            return {
+            results = {
                 'method': method,
                 'url': url,
                 'url_path': url_path,
                 'resp_time': resp_time,
                 'status': status,
-                'request_datetime': request_datetime
+                'request_datetime': request_datetime,
             }
+            if self.memory_report:
+                address_space_usage = int(matched_dict['address_space_usage'] or 0) / (1024**2)
+                rss_usage = int(matched_dict['rss_usage'] or 0) / (1024**2)
+                total_mem_usage = address_space_usage + rss_usage
+                results.update({
+                    'address_space_usage': address_space_usage,
+                    'rss_usage': rss_usage,
+                    'total_mem_usage': total_mem_usage,
+                })
+            return results
         return
 
 
 class URLClassifier(object):
     """A simple url classifier, current rules:
-        
-    - replacing sequential digits part by '(\d+)'    
+
+    - replacing sequential digits part by '(\d+)'
     """
 
     RE_SIMPLIFY_URL = re.compile(r'(?<=/)\d+[/$]')
@@ -80,7 +97,9 @@ class URLClassifier(object):
 class LogAnalyzer(object):
     """Log analyzer"""
 
-    def __init__(self, url_classifier=None, min_msecs=200, start_from_datetime=None):
+    def __init__(
+            self, url_classifier=None, min_msecs=200, start_from_datetime=None,
+            memory_report=False):
         self.data = {}
         self.requests_counter = {'normal': 0, 'slow': 0}
         self.total_slow_duration = 0
@@ -90,7 +109,8 @@ class LogAnalyzer(object):
         self.datetime_range = [None, None]
 
         self.url_classifier = url_classifier or URLClassifier()
-        self.log_parser = UWSGILogParser()
+        self.log_parser = UWSGILogParser(memory_report=memory_report)
+        self.memory_report = memory_report
 
     def analyze_line(self, line):
         line = line.strip()
@@ -110,18 +130,27 @@ class LogAnalyzer(object):
             return
 
         resp_time = result['resp_time']
+        mem_usage = result['total_mem_usage']
 
         # Use url_classifier to classify url
         matched_url_rule = self.url_classifier.classify(result['url_path'])
 
-        big_d = self.data.setdefault((result['method'], matched_url_rule), {
+        default_dict = {
             'urls': {},
             'duration_agr_data': ValuesAggregation(),
-        })
+        }
+
+        if self.memory_report:
+            default_dict.update({
+                'mem_agr_data': ValuesAggregation(),
+            })
+        big_d = self.data.setdefault((result['method'], matched_url_rule), default_dict)
 
         big_d['duration_agr_data'].add_value(resp_time)
+        if self.memory_report:
+            big_d['mem_agr_data'].add_value(mem_usage)
         big_d['urls'].setdefault(result['url'], ValuesAggregation()).add_value(resp_time)
-        
+
         self.requests_counter['slow'] += 1
         self.total_slow_duration += resp_time
 
@@ -143,14 +172,17 @@ class RealtimeLogAnalyzer(object):
         'data_details': {}
     }
 
-    def __init__(self, url_classifier=None, min_msecs=200, start_from_datetime=None):
+    def __init__(
+            self, url_classifier=None, min_msecs=200, start_from_datetime=None,
+            memory_report=False):
         self.data = {}
         self.min_msecs = min_msecs
         self.start_from_datetime = start_from_datetime
         self.last_analyzed_datetime = None
 
         self.url_classifier = url_classifier or URLClassifier()
-        self.log_parser = UWSGILogParser()
+        self.log_parser = UWSGILogParser(memory_report=memory_report)
+        self.memory_report = memory_report
 
     def analyze_line(self, line):
         line = line.strip()
@@ -176,19 +208,28 @@ class RealtimeLogAnalyzer(object):
             return
 
         resp_time = result['resp_time']
+        if self.memory_report:
+            mem_usage = result['total_mem_usage']
 
         # Use url_classifier to classify url
         matched_url_rule = self.url_classifier.classify(result['url_path'])
 
         for group in groups:
-            big_d = self.data[group]['data_details'].setdefault((result['method'], matched_url_rule), {
+            default_dict = {
                 'urls': {},
                 'duration_agr_data': ValuesAggregation(),
-            })
+            }
+            if self.memory_report:
+                default_dict.update({
+                    'mem_agr_data': ValuesAggregation(),
+                })
+            big_d = self.data[group]['data_details'].setdefault((result['method'], matched_url_rule), default_dict)
 
             big_d['duration_agr_data'].add_value(resp_time)
+            if self.memory_report:
+                big_d['mem_agr_data'].add_value(mem_usage)
             big_d['urls'].setdefault(result['url'], ValuesAggregation()).add_value(resp_time)
-            
+
             self.data[group]['requests_counter']['slow'] += 1
             self.data[group]['total_slow_duration'] += resp_time
 
@@ -218,7 +259,7 @@ class RealtimeLogAnalyzer(object):
             pass
 
 
-def format_data(raw_data):
+def format_data(raw_data, order_field="duration_agr_data"):
     """Fomat data from LogAnalyzer for render purpose"""
     data = copy.deepcopy(raw_data)
     for k, v in data['data_details'].items():
@@ -227,7 +268,7 @@ def format_data(raw_data):
                            reverse=True)[:LIMIT_PER_URL_GROUP]
 
     data_details = sorted(data['data_details'].iteritems(),
-                          key=lambda (k, v): v["duration_agr_data"].total, 
+                          key=lambda (k, v): v[order_field].total,
                           reverse=True)[:LIMIT_URL_GROUPS]
 
     if data['requests_counter']['normal']:

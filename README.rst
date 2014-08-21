@@ -4,7 +4,7 @@ uwsgi-sloth
 uwsgi-sloth is a realtime uwsgi log analyer, designed for helping optimization
 of uwsgi app's performance.
 
-It can both generates `a static report file <http://www.zlovezl.cn/static/uwsgi-sloth-report-example.html>`_ 
+It can both generates `a static report file <http://www.zlovezl.cn/static/uwsgi-sloth-report-example.html>`_
 or analyze your log file in realtime(`demo <http://uwsgi-sloth.zlovezl.cn/latest_5mins.html>`_).
 
 Image preview:
@@ -45,8 +45,17 @@ command.
     # Specify threshold for request process time
     $ uwsgi-sloth analyze -f uwsgi_access.log --output=report.html --min-msecs=400
 
+You can also run analyzer on logs for uwsgi apss where 'memory-report' option is set to 'true':
+
+.. code-block:: bash
+
+    uwsgi-sloth analyze -f uwsgi_access.log --output=report.html --memory-report
+
+    # also order by memory usage
+    uwsgi-sloth analyze -f uwsgi_access.log --output=report.html --memory-report --order-field=mem_agr_data
+
 Check more: `uwsgi-sloth analyze`_
-    
+
 Realtime reports
 ^^^^^^^^^^^^^^^^
 
@@ -69,7 +78,7 @@ The default config file are like this:
     uwsgi_log_path = '/your_uwsgi_logs/web.log'
 
     # All HTML files and data files will store here, must have read/write permissions
-    data_dir = '/you_data/uwsgi-sloth/'                          
+    data_dir = '/you_data/uwsgi-sloth/'
 
     # Minimal msecs for detect slow requests, default to 200
     # min_msecs = 200
@@ -99,7 +108,7 @@ uwsgi-sloth does not support built-in deamonize option, so you may need tools li
 Serve your reports
 ~~~~~~~~~~~~~~~~~~
 
-Now, HTML files have been generated, we should configure our 
+Now, HTML files have been generated, we should configure our
 webserver so we can visit it, this configuration is for nginx: ::
 
 

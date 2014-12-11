@@ -21,7 +21,7 @@ QuickStart
 Install
 ^^^^^^^
 
-uwsgi-sloth is written by python, to install it, simply use pip:
+uwsgi-sloth is written in python, to install it, simply use pip:
 
 .. code-block:: bash
 
@@ -34,7 +34,7 @@ uwsgi-sloth is written by python, to install it, simply use pip:
 Static report
 ^^^^^^^^^^^^^
 
-After installation, you can analyzing your uwsgi log uwsing ``uwsgi-sloth analyze``
+After installation, you can analyzing your uwsgi log using ``uwsgi-sloth analyze``
 command.
 
 .. code-block:: bash

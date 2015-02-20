@@ -1,4 +1,4 @@
-{%- macro render_details_table(data_details, domain=None) -%}
+{%- macro render_details_table(data_details, domain=None, memory_report=False) -%}
 
           <table class="table table-condensed table-hover">
             <colgroup>
@@ -13,8 +13,14 @@
               <tr>
                 <th>Rank</th>
                 <th>Total<br/>Duration</th>
+                {% if memory_report %}
+                <th>Total<br/>Memory</th>
+                {% endif %}
                 <th>Times<br/>Requested</th>
                 <th>Av.<br/>duration</th>
+                {% if memory_report %}
+                <th>Av.<br/>Memory</th>
+                {% endif %}
                 <th>Method</th>
                 <th>Url Schema</th>
               </th>
@@ -22,10 +28,16 @@
             <tbody>
             {% for url_schema, d in data_details %}
             <tr>
-              <td>{{ loop.index }}</td> 
+              <td>{{ loop.index }}</td>
               <td>{{ d.duration_agr_data.total | friendly_time }}</td>
+							{% if memory_report %}
+              <td>{{ '%.2f' % d.mem_agr_data.total|float }}&nbsp;MiB</td>
+              {% endif %}
               <td>{{ d.duration_agr_data.count }}</td>
               <td>{{ d.duration_agr_data.avg | friendly_time  }}</td>
+							{% if memory_report %}
+              <td>{{ '%.2f' % d.mem_agr_data.avg|float }}&nbsp;MiB</td>
+              {% endif %}
               <td>{{ url_schema[0] }}</td>
               <td>
                 <div class="url-schema">{{ url_schema[1]|smart_unicode }}</div>
@@ -33,7 +45,7 @@
                 <div class="url-details-list">
                   {% for url, url_data in d.urls %}
                   <div class="url-details">
-                    <p><strong>Url:</strong> 
+                    <p><strong>Url:</strong>
                     {% if domain %}
                     <a href="{{ domain }}{{url|smart_unicode}}" target="_blank">{{ url[:100]|smart_unicode }}</a>
                     {% else %}

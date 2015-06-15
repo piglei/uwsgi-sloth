@@ -61,7 +61,7 @@ class URLClassifier(object):
     - replacing sequential digits part by '(\d+)'    
     """
 
-    RE_SIMPLIFY_URL = re.compile(r'(?<=/)\d+[/$]')
+    RE_SIMPLIFY_URL = re.compile(r'(?<=/)\d+(/|$)')
 
     def __init__(self, user_defined_rules=[]):
         self.user_defined_rules = user_defined_rules

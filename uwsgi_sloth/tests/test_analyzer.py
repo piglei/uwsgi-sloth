@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Test code for ananlyzer"""
-from uwsgi_sloth.analyzer import UWSGILogParser
+from uwsgi_sloth.analyzer import UWSGILogParser, URLClassifier
 
 
 class TestUWSGILogParser(object):
@@ -21,3 +21,16 @@ class TestUWSGILogParser(object):
         assert valid_result['url_path'] == '/trips/hot/'
         assert valid_result['resp_time'] == 55
 
+
+class TestURLClassifier(object):
+    @classmethod
+    def setup_class(cls):
+        cls.url_classifier = URLClassifier()
+
+    def test_classify_digits(self):
+        path = self.url_classifier.classify('/trips/hot/42/foo')
+        assert path == '/trips/hot/(\d+)/foo'
+
+    def test_classify_trailing_digits(self):
+        path = self.url_classifier.classify('/trips/hot/42')
+        assert path == '/trips/hot/(\d+)/'

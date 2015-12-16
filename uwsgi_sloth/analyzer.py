@@ -218,17 +218,17 @@ class RealtimeLogAnalyzer(object):
             pass
 
 
-def format_data(raw_data):
+def format_data(raw_data, limit_per_url_group=LIMIT_PER_URL_GROUP, limit_url_groups=LIMIT_URL_GROUPS):
     """Fomat data from LogAnalyzer for render purpose"""
     data = copy.deepcopy(raw_data)
     for k, v in data['data_details'].items():
-        # Only reserve first ``LIMIT_PER_URL_GROUP`` items
+        # Only reserve first ``limit_per_url_group`` items
         v['urls'] = sorted(v['urls'].iteritems(), key=lambda (k, v): v.total,
-                           reverse=True)[:LIMIT_PER_URL_GROUP]
+                           reverse=True)[:limit_per_url_group]
 
     data_details = sorted(data['data_details'].iteritems(),
                           key=lambda (k, v): v["duration_agr_data"].total, 
-                          reverse=True)[:LIMIT_URL_GROUPS]
+                          reverse=True)[:limit_url_groups]
 
     if data['requests_counter']['normal']:
         slow_rate = format(data['requests_counter']['slow'] / \

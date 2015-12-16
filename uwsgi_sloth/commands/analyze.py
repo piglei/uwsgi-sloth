@@ -30,7 +30,7 @@ def analyze(args):
     logger.info('Analyzing log file "%s"...' % args.filepath.name)
     start_time = time.time()
     data = analyze_log(args.filepath, args, url_rules)
-    data = format_data(data)
+    data = format_data(data, args.limit_per_url_group, args.limit_url_groups)
     data.update({
         'domain': args.domain,
         'input_filename': args.filepath.name,
@@ -58,6 +58,11 @@ def load_subcommand(subparsers):
                                 help='Make url in report become a hyper-link by settings a domain')
     parser_analyze.add_argument('--url-file', dest="url_file", type=file, required=False, 
                                 help='Customized url rules in regular expression')
+    parser_analyze.add_argument('--limit-url-groups', dest="limit_url_groups", type=int, required=False, 
+                                default=LIMIT_URL_GROUPS, help='Number of url groups considered')
+    parser_analyze.add_argument('--limit-per-url-group', dest="limit_per_url_group", type=int,
+                                required=False, default=LIMIT_PER_URL_GROUP,
+                                help='Number of urls per group considered')
     parser_analyze.set_defaults(func=analyze)
 
 

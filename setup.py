@@ -2,8 +2,9 @@
 from setuptools import setup, find_packages
 
 
-setup(name='uwsgi-sloth',
-    version='2.0.2',
+setup(
+    name='uwsgi-sloth',
+    version='2.1.2',
     description='A simple uwsgi access log analyzer',
     long_description=open('README.rst').read(),
     author='piglei',
@@ -17,6 +18,5 @@ setup(name='uwsgi-sloth',
         'jinja2',
         'configobj'
     ],
-    scripts=['uwsgi_sloth/uwsgi-sloth'])
-
-
+    scripts=['uwsgi_sloth/uwsgi-sloth']
+)

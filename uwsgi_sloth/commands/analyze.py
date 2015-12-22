@@ -46,7 +46,8 @@ def analyze(args):
 
 
 def load_subcommand(subparsers):
-    """Load this subcommand"""
+    """Load this subcommand
+    """
     parser_analyze = subparsers.add_parser('analyze', help='Analyze uwsgi log to get report')
     parser_analyze.add_argument('-f', '--filepath', type=argparse.FileType('r'), dest='filepath',
                                 help='Path of uwsgi log file', required=True)
@@ -59,10 +60,8 @@ def load_subcommand(subparsers):
     parser_analyze.add_argument('--url-file', dest="url_file", type=file, required=False, 
                                 help='Customized url rules in regular expression')
     parser_analyze.add_argument('--limit-url-groups', dest="limit_url_groups", type=int, required=False, 
-                                default=LIMIT_URL_GROUPS, help='Number of url groups considered')
+                                default=LIMIT_URL_GROUPS, help='Number of url groups considered, default: 200')
     parser_analyze.add_argument('--limit-per-url-group', dest="limit_per_url_group", type=int,
                                 required=False, default=LIMIT_PER_URL_GROUP,
-                                help='Number of urls per group considered')
+                                help='Number of urls per group considered, default: 20')
     parser_analyze.set_defaults(func=analyze)
-
-

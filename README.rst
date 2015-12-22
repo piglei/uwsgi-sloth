@@ -143,6 +143,11 @@ Available arguments
       --domain DOMAIN       Make url in report become a hyper-link by settings a
                             domain
       --url-file URL_FILE   Customized url rules in regular expression
+      --limit-url-groups LIMIT_URL_GROUPS
+                            Number of url groups considered, default: 200
+      --limit-per-url-group LIMIT_PER_URL_GROUP
+                            Number of urls per group considered, default: 20
+
 
 Using a customized url rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

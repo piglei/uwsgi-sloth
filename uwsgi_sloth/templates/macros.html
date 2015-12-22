@@ -1,6 +1,6 @@
 {%- macro render_details_table(data_details, domain=None) -%}
 
-          <table class="table table-condensed table-hover">
+          <table class="table table-condensed table-hover" data-sortable>
             <colgroup>
               <col width="60px"></col>
               <col width="100px"></col>
@@ -17,17 +17,17 @@
                 <th>Av.<br/>duration</th>
                 <th>Method</th>
                 <th>Url Schema</th>
-              </th>
+              </tr>
             </thead>
             <tbody>
             {% for url_schema, d in data_details %}
             <tr>
               <td>{{ loop.index }}</td> 
-              <td>{{ d.duration_agr_data.total | friendly_time }}</td>
-              <td>{{ d.duration_agr_data.count }}</td>
-              <td>{{ d.duration_agr_data.avg | friendly_time  }}</td>
+              <td data-value="{{ d.duration_agr_data.total }}">{{ d.duration_agr_data.total | friendly_time }}</td>
+              <td data-value="{{ d.duration_agr_data.count }}">{{ d.duration_agr_data.count }}</td>
+              <td data-value="{{ d.duration_agr_data.avg }}">{{ d.duration_agr_data.avg | friendly_time  }}</td>
               <td>{{ url_schema[0] }}</td>
-              <td>
+              <td data-value="{{ url_schema[1]|smart_unicode }}">
                 <div class="url-schema">{{ url_schema[1]|smart_unicode }}</div>
                 <button class="show-details btn btn-default">Top 20 urls</button>
                 <div class="url-details-list">

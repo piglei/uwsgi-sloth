@@ -3,7 +3,7 @@ import os
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
-FILTER_METHODS = ('GET', 'POST', 'PUT', 'DELETE')
+FILTER_METHODS = ('GET', 'POST', 'PUT', 'DELETE', 'PATCH')
 FILTER_STATUS = ('200', )
 
 LIMIT_URL_GROUPS = 200

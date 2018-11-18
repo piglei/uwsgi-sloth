@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 import sys
 from setuptools import setup, find_packages
 
@@ -8,7 +10,7 @@ if sys.version_info < (3, 5):
     error = """
 uwsgi-sloth only supports Python 3.5 and above.
 When using Python 2.7, please install "uwsgi-sloth<3.0.0" instead.
-""".format(py=sys.version_info)
+"""
 
     print(error, file=sys.stderr)
     sys.exit(1)
@@ -16,7 +18,7 @@ When using Python 2.7, please install "uwsgi-sloth<3.0.0" instead.
 
 setup(
     name='uwsgi-sloth',
-    version='3.0.0',
+    version='3.0.1',
     description='A simple uwsgi access log analyzer',
     long_description=open('README.rst').read(),
     author='piglei',

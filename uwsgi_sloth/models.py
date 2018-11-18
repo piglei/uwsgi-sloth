@@ -2,10 +2,7 @@
 """Data models functions"""
 import os
 import logging
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
+import pickle
 
 logger = logging.getLogger(__name__)
 
@@ -58,7 +55,7 @@ def merge_urls_data_to(to, food={}):
     if not to:
         to.update(food)
 
-    for url, data in food.iteritems():
+    for url, data in food.items():
         if url not in to:
             to[url] = data
         else:
@@ -75,7 +72,7 @@ def merge_requests_data_to(to, food={}):
     to['requests_counter']['slow'] += food['requests_counter']['slow']
     to['total_slow_duration'] += food['total_slow_duration']
 
-    for group_name, urls in food['data_details'].iteritems():
+    for group_name, urls in food['data_details'].items():
         if group_name not in to['data_details']:
             to['data_details'][group_name] = urls
         else:

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import pkg_resources
+from uwsgi_sloth.utils import force_text
 
 
 def echo_conf(args):
-    print pkg_resources.resource_string('uwsgi_sloth', "sample.conf")
+    print(force_text(pkg_resources.resource_string('uwsgi_sloth', "sample.conf")))
 
 
 def load_subcommand(subparsers):

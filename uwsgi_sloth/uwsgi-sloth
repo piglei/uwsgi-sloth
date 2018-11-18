@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""UWSGI access log analyzer, perfect tool for analyzing slow requests"""
+"""UWSGI access log analyzer, perfect tool for analyzing slow requests
+"""
+import sys
 import argparse
 
 parser = argparse.ArgumentParser(description='Realtime uwsgi log analyzer.')
@@ -19,9 +21,12 @@ load_subcommand(subparsers)
 
 def main():
     args = parser.parse_args()
-    args.func(args)
+    try:
+        args.func(args)
+    except AttributeError:
+        print("Please specify a subcommand: analyze / start / echo_conf")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
     main()
-

@@ -6,7 +6,6 @@ from jinja2 import Environment, FileSystemLoader
 
 from uwsgi_sloth.settings import ROOT
 from uwsgi_sloth import settings, __VERSION__
-from uwsgi_sloth.utils import smart_unicode
 
 template_path = os.path.join(ROOT, 'templates')
 env = Environment(loader=FileSystemLoader(template_path))
@@ -27,7 +26,6 @@ def friendly_time(msecs):
         return '%.2fms' % msecs
 
 env.filters['friendly_time'] = friendly_time
-env.filters['smart_unicode'] = smart_unicode
 
 
 def render_template(template_name, context={}):

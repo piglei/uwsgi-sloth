@@ -7,7 +7,7 @@ import argparse
 from uwsgi_sloth.settings import LIMIT_URL_GROUPS, LIMIT_PER_URL_GROUP
 from uwsgi_sloth.analyzer import URLClassifier, LogAnalyzer, format_data
 from uwsgi_sloth.template import render_template
-from uwsgi_sloth.utils import parse_url_rules, smart_str
+from uwsgi_sloth.utils import parse_url_rules
 
 logger = logging.getLogger('uwsgi_sloth.analyze')
 
@@ -40,7 +40,7 @@ def analyze(args):
     # Pre-process data
     html_data = render_template('report.html', data)
 
-    args.output.write(smart_str(html_data))
+    args.output.write(html_data)
     args.output.close()
     logger.info('Finished in %.2f seconds.' % (time.time() - start_time))
 
@@ -57,7 +57,7 @@ def load_subcommand(subparsers):
                                 help='Request serve time lower than this value will not be counted, default: 200')
     parser_analyze.add_argument('--domain', dest="domain", type=str, required=False,
                                 help='Make url in report become a hyper-link by settings a domain')
-    parser_analyze.add_argument('--url-file', dest="url_file", type=file, required=False, 
+    parser_analyze.add_argument('--url-file', dest="url_file", type=argparse.FileType('r'), required=False, 
                                 help='Customized url rules in regular expression')
     parser_analyze.add_argument('--limit-url-groups', dest="limit_url_groups", type=int, required=False, 
                                 default=LIMIT_URL_GROUPS, help='Number of url groups considered, default: 200')

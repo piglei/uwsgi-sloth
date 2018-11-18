@@ -22,17 +22,29 @@ def total_seconds(td):
     return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 1e6) / 1e6
 
 
-def smart_str(s, encoding='utf-8'):
-    if isinstance(s, unicode):
-        return s.encode(encoding)
-    elif s and encoding != 'utf-8':
-        return s.decode('utf-8', 'ignore').encode(encoding, 'ignore')
+def force_bytes(s, encoding='utf-8', errors='strict'):
+    """A function turns "s" into bytes object, similar to django.utils.encoding.force_bytes
+    """
+    # Handle the common case first for performance reasons.
+    if isinstance(s, bytes):
+        if encoding == 'utf-8':
+            return s
+        else:
+            return s.decode('utf-8', errors).encode(encoding, errors)
     else:
-        return str(s)
+        return s.encode(encoding, errors)
+
     
-def smart_unicode(s, encoding='utf-8'):
-    if isinstance(s, unicode):
+def force_text(s, encoding='utf-8',  errors='strict'):
+    """A function turns "s" into text type, similar to django.utils.encoding.force_text
+    """
+    if issubclass(type(s), str):
         return s
-    return s.decode(encoding, 'ignore')
-
-
+    try:
+        if isinstance(s, bytes):
+            s = str(s, encoding, errors)
+        else:
+            s = str(s)
+    except UnicodeDecodeError as e:
+        raise DjangoUnicodeDecodeError(s, *e.args)
+    return s

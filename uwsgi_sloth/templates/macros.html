@@ -27,17 +27,17 @@
               <td data-value="{{ d.duration_agr_data.count }}">{{ d.duration_agr_data.count }}</td>
               <td data-value="{{ d.duration_agr_data.avg }}">{{ d.duration_agr_data.avg | friendly_time  }}</td>
               <td>{{ url_schema[0] }}</td>
-              <td data-value="{{ url_schema[1]|smart_unicode }}">
-                <div class="url-schema">{{ url_schema[1]|smart_unicode }}</div>
+              <td data-value="{{ url_schema[1]}}">
+                <div class="url-schema">{{ url_schema[1]}}</div>
                 <button class="show-details btn btn-default">Top 20 urls</button>
                 <div class="url-details-list">
                   {% for url, url_data in d.urls %}
                   <div class="url-details">
                     <p><strong>Url:</strong> 
                     {% if domain %}
-                    <a href="{{ domain }}{{url|smart_unicode}}" target="_blank">{{ url[:100]|smart_unicode }}</a>
+                    <a href="{{ domain }}{{url}}" target="_blank">{{ url[:100]}}</a>
                     {% else %}
-                    {{ url|smart_unicode }}
+                    {{ url }}
                     {% endif %}
                     </p>
                     <p><strong>Times:</strong> {{ url_data.count }}</p>

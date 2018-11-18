@@ -74,7 +74,7 @@ class URLClassifier(object):
             if re_api_url.match(url_path[1:]):
                 return api_url
 
-        return self.RE_SIMPLIFY_URL.sub('(\d+)/', url_path)
+        return self.RE_SIMPLIFY_URL.sub(r'(\\d+)/', url_path)
 
 
 class LogAnalyzer(object):
@@ -221,13 +221,13 @@ class RealtimeLogAnalyzer(object):
 def format_data(raw_data, limit_per_url_group=LIMIT_PER_URL_GROUP, limit_url_groups=LIMIT_URL_GROUPS):
     """Fomat data from LogAnalyzer for render purpose"""
     data = copy.deepcopy(raw_data)
-    for k, v in data['data_details'].items():
+    for k, v in list(data['data_details'].items()):
         # Only reserve first ``limit_per_url_group`` items
-        v['urls'] = sorted(v['urls'].iteritems(), key=lambda (k, v): v.total,
+        v['urls'] = sorted(list(v['urls'].items()), key=lambda k_v: k_v[1].total,
                            reverse=True)[:limit_per_url_group]
 
-    data_details = sorted(data['data_details'].iteritems(),
-                          key=lambda (k, v): v["duration_agr_data"].total, 
+    data_details = sorted(iter(data['data_details'].items()),
+                          key=lambda k_v1: k_v1[1]["duration_agr_data"].total, 
                           reverse=True)[:limit_url_groups]
 
     if data['requests_counter']['normal']:

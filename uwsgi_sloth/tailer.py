@@ -23,7 +23,7 @@ class Tailer(object):
     MAX_UNCHANGED_STATS = 5
 
     def __init__(self, file, read_size=DEFAULT_BLOCK_SIZE, end=False):
-        if isinstance(file, basestring):
+        if isinstance(file, str):
             file = open(file, 'r')
 
         self.should_stop_follow = False

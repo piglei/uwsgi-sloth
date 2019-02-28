@@ -108,7 +108,7 @@ def start(args):
              'latest_5mins.html', context={'datetime_range': 'Last 5 minutes'})
         analyzer.clean_data_by_key('last_interval')
 
-        for date in analyzer.data.keys():
+        for date in list(analyzer.data.keys()):
             day_requests_data = RequestsData(date, db_dir)
             merge_requests_data_to(day_requests_data.data, analyzer.get_data(date))
             # Render to HTML file

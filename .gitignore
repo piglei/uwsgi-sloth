@@ -53,3 +53,5 @@ coverage.xml
 docs/_build/
 
 README.html
+
+Pipfile*

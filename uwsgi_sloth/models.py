@@ -14,7 +14,7 @@ class SavePoint(object):
     def __init__(self, db_dir):
         self.db_file_path = os.path.join(db_dir, self.default_file_name)
         if os.path.exists(self.db_file_path):
-            with open(self.db_file_path, 'r') as fp:
+            with open(self.db_file_path, 'rb') as fp:
                 self.data = pickle.load(fp)
         else:
             self.data = {}
@@ -27,7 +27,7 @@ class SavePoint(object):
 
     def save(self):
         logger.info('SavePoint value change to %s' % self.get_last_datetime())
-        with open(self.db_file_path, 'w') as fp:
+        with open(self.db_file_path, 'wb') as fp:
             pickle.dump(self.data, fp)
 
 
@@ -38,13 +38,13 @@ class RequestsData(object):
         self.date = date
         self.db_file_path = os.path.join(db_dir, '%s.pickle' % date)
         if os.path.exists(self.db_file_path):
-            with open(self.db_file_path, 'r') as fp:
+            with open(self.db_file_path, 'rb') as fp:
                 self.data = pickle.load(fp)
         else:
             self.data = {}
 
     def save(self):
-        with open(self.db_file_path, 'w') as fp:
+        with open(self.db_file_path, 'wb') as fp:
             pickle.dump(self.data, fp)
 
 

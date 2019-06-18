@@ -5,7 +5,7 @@ uwsgi-sloth is a realtime uwsgi log analyer, designed for helping optimization
 of uwsgi app's performance.
 
 It can both generates `a static report file <http://www.zlovezl.cn/static/uwsgi-sloth-report-example.html>`_ 
-or analyze your log file in realtime(`demo <http://uwsgi-sloth.zlovezl.cn/latest_5mins.html>`_).
+or analyze your log file in realtime.
 
 Image preview:
 

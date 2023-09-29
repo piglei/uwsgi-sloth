@@ -23,7 +23,7 @@ class UWSGILogParser(object):
     An dict of parsed log result.
     """
     DATETIME_FORMAT = '%a %b %d %H:%M:%S %Y'
-    RE_LOG_LINE = re.compile(r'''}\ \[(?P<datetime>.*?)\]\ (?P<request_method>POST|GET|DELETE|PUT|PATCH)\s
+    RE_LOG_LINE = re.compile(r'''\[pid:.*}\ \[(?P<datetime>.*?)\]\ (?P<request_method>POST|GET|DELETE|PUT|PATCH)\s
         (?P<request_uri>[^ ]*?)\ =>\ generated\ (?:.*?)\ in\ (?P<resp_msecs>\d+)\ msecs\s
         \(HTTP/[\d.]+\ (?P<resp_status>\d+)\)''', re.VERBOSE)
 

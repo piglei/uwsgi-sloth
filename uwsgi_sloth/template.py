@@ -33,7 +33,7 @@ def render_template(template_name, context={}):
     context.update(
         SETTINGS=settings,
         now=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        version='.'.join(map(str, __VERSION__)))
+        version=__VERSION__)
     return template.render(**context)
 
 
